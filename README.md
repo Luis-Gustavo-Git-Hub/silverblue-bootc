@@ -1,6 +1,6 @@
 # silverblue-bootc
 
-Projeto pessoal derivado da imagem Fedora Silverblue, mantendo o desktop GNOME, removendo Firefox, GNOME Tour, GNOME Maps e o aplicativo Controle Parental (`malcontent-control`) e adicionando Brave Origin estável. Não é uma edição oficial do Fedora.
+Projeto pessoal derivado da imagem Fedora Silverblue, mantendo o desktop GNOME, removendo Firefox, GNOME Tour, GNOME Maps, GNOME Weather (Clima) e o aplicativo Controle Parental (`malcontent-control`) e adicionando Brave Origin estável. Não é uma edição oficial do Fedora.
 
 ## Brave Origin
 
@@ -44,3 +44,7 @@ Após o primeiro build bem-sucedido, testar a imagem em VM e definir assinatura,
 - https://quay.io/repository/fedora-ostree-desktops/silverblue
 - https://docs.fedoraproject.org/en-US/bootc/
 - https://fedoraproject.org/atomic-desktops/silverblue/
+
+## Multimídia e miniaturas
+
+Inclui RPM Fusion Free, libavcodec-freeworld, plugins GStreamer, ffmpegthumbnailer, glycin-loaders e libheif-tools/libheif-freeworld para ampliar reprodução e miniaturas de vídeos e imagens, incluindo HEIF/HEIC e AVIF. A disponibilidade de cada codec depende do aplicativo; aplicativos Flatpak usam seus próprios runtimes. Aceleração de vídeo por GPU não foi personalizada. As miniaturas seguem as preferências do Arquivos, inclusive para arquivos remotos e limites de tamanho. Validação visual e de reprodução em VM pendente.
