@@ -48,3 +48,7 @@ Após o primeiro build bem-sucedido, testar a imagem em VM e definir assinatura,
 ## Multimídia e miniaturas
 
 Inclui RPM Fusion Free, libavcodec-freeworld, plugins GStreamer, ffmpegthumbnailer, glycin-loaders e libheif-tools/libheif-freeworld para ampliar reprodução e miniaturas de vídeos e imagens, incluindo HEIF/HEIC e AVIF. A disponibilidade de cada codec depende do aplicativo; aplicativos Flatpak usam seus próprios runtimes. Aceleração de vídeo por GPU não foi personalizada. As miniaturas seguem as preferências do Arquivos, inclusive para arquivos remotos e limites de tamanho. Validação visual e de reprodução em VM pendente.
+
+## Loja de aplicativos
+
+GNOME Software, Connections e Câmera (Snapshot/Cheese) são removidos da base, além dos outros aplicativos listados acima. Bazaar é instalado nativamente como RPM durante o build pelo COPR carlwgeorge/bazaar, com verificação de assinatura dos pacotes habilitada. Não é instalada a versão Flatpak do Bazaar. O Flatpak permanece como suporte aos aplicativos gerenciados pela loja. Bazaar gerencia Flatpaks; as atualizações do sistema continuam pelo bootc.

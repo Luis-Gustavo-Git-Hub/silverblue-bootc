@@ -1,0 +1,8 @@
+[copr:copr.fedorainfracloud.org:carlwgeorge:bazaar]
+name=COPR Bazaar maintained by carlwgeorge
+baseurl=https://download.copr.fedorainfracloud.org/results/carlwgeorge/bazaar/fedora-$releasever-$basearch/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+gpgkey=https://download.copr.fedorainfracloud.org/results/carlwgeorge/bazaar/pubkey.gpg
+skip_if_unavailable=False

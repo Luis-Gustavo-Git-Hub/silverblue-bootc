@@ -3,11 +3,11 @@ FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
 
 RUN set -eu; \
     set --; \
-    for package in firefox firefox-langpacks gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar; do \
+    for package in firefox firefox-langpacks gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar gnome-software gnome-connections snapshot cheese; do \
         if rpm -q "$package" >/dev/null 2>&1; then set -- "$@" "$package"; fi; \
     done; \
     if [ "$#" -gt 0 ]; then rpm-ostree override remove "$@"; fi; \
-    for package in firefox gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar; do \
+    for package in firefox gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar gnome-software gnome-connections snapshot cheese; do \
         if rpm -q "$package" >/dev/null 2>&1; then exit 1; fi; \
     done; \
     ostree container commit
@@ -39,6 +39,11 @@ RUN rpm-ostree override remove libavcodec-free --install libavcodec-freeworld \
         libheif-freeworld \
     && test -x /usr/bin/ffmpegthumbnailer \
     && test -f /usr/share/thumbnailers/heif.thumbnailer \
+    && ostree container commit
+
+COPY files/bazaar.repo /etc/yum.repos.d/bazaar.repo
+RUN rpm-ostree install bazaar flatpak \
+    && rpm -q bazaar \
     && ostree container commit
 
 RUN test -x /usr/bin/bootc && bootc container lint
