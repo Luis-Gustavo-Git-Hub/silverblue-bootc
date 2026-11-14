@@ -34,7 +34,7 @@ jobs:
           echo "IMAGE=$image" >> "$GITHUB_ENV"
       - name: Build and validate
         run: |
-          sudo podman build --pull=always --format oci \
+          sudo podman build --pull=always --layers=false --format oci \
             --label "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" \
             --label "org.opencontainers.image.revision=$GITHUB_SHA" \
             -t "$IMAGE:latest" -t "$IMAGE:sha-$GITHUB_SHA" \

@@ -31,7 +31,12 @@ RUN rpm-ostree install distribution-gpg-keys \
         "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
     && ostree container commit
 
-RUN rpm-ostree override remove libavcodec-free --install libavcodec-freeworld \
+RUN set -eu; \
+    set --; \
+    for package in ffmpeg-free libavcodec-free libavdevice-free libavfilter-free libavformat-free libavutil-free libpostproc-free libswresample-free libswscale-free; do \
+        if rpm -q "$package" >/dev/null 2>&1; then set -- "$@" "$package"; fi; \
+    done; \
+    rpm-ostree override remove "$@" --install ffmpeg \
     && rpm-ostree install \
         ffmpegthumbnailer \
         gstreamer1-plugin-libav \

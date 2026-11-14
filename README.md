@@ -47,7 +47,7 @@ Após o primeiro build bem-sucedido, testar a imagem em VM e definir assinatura,
 
 ## Multimídia e miniaturas
 
-Inclui RPM Fusion Free, libavcodec-freeworld, plugins GStreamer, ffmpegthumbnailer, glycin-loaders e libheif-tools/libheif-freeworld para ampliar reprodução e miniaturas de vídeos e imagens, incluindo HEIF/HEIC e AVIF. A disponibilidade de cada codec depende do aplicativo; aplicativos Flatpak usam seus próprios runtimes. Aceleração de vídeo por GPU não foi personalizada. As miniaturas seguem as preferências do Arquivos, inclusive para arquivos remotos e limites de tamanho. Validação visual e de reprodução em VM pendente.
+Inclui RPM Fusion Free, FFmpeg completo, plugins GStreamer, ffmpegthumbnailer, glycin-loaders e libheif-tools/libheif-freeworld para ampliar reprodução e miniaturas de vídeos e imagens, incluindo HEIF/HEIC e AVIF. A disponibilidade de cada codec depende do aplicativo; aplicativos Flatpak usam seus próprios runtimes. Aceleração de vídeo por GPU não foi personalizada. As miniaturas seguem as preferências do Arquivos, inclusive para arquivos remotos e limites de tamanho. Validação visual e de reprodução em VM pendente.
 
 ## Loja de aplicativos
 
