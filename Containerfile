@@ -25,7 +25,9 @@ RUN curl -fsSLo /etc/yum.repos.d/brave-browser.repo \
 
 # RPM Fusion Free fornece os codecs adicionais; os pacotes Fedora
 # fornecem os carregadores de imagens e os geradores de miniaturas.
-RUN rpm-ostree install \
+RUN rpm-ostree install distribution-gpg-keys \
+    && rpm --import "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-$(rpm -E %fedora)" \
+    && rpm-ostree install \
         "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
     && ostree container commit
 
