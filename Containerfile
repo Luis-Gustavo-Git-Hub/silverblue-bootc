@@ -2,10 +2,14 @@ ARG FEDORA_VERSION=45
 FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
 
 RUN set -eu; \
-    set -- firefox; \
-    if rpm -q firefox-langpacks >/dev/null 2>&1; then set -- "$@" firefox-langpacks; fi; \
-    rpm-ostree override remove "$@"; \
-    if rpm -q firefox >/dev/null 2>&1; then exit 1; fi; \
+    set --; \
+    for package in firefox firefox-langpacks gnome-tour malcontent-control gnome-maps; do \
+        if rpm -q "$package" >/dev/null 2>&1; then set -- "$@" "$package"; fi; \
+    done; \
+    if [ "$#" -gt 0 ]; then rpm-ostree override remove "$@"; fi; \
+    for package in firefox gnome-tour malcontent-control gnome-maps; do \
+        if rpm -q "$package" >/dev/null 2>&1; then exit 1; fi; \
+    done; \
     ostree container commit
 
 # Instala o Brave Origin do repositório oficial durante o build.
