@@ -1,0 +1,6 @@
+*.iso
+*.qcow2
+*.raw
+*.tar
+auth.json
+.env

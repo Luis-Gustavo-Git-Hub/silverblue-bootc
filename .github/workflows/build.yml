@@ -1,0 +1,54 @@
+name: Build Silverblue
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 6 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: silverblue-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+      - name: Image name
+        run: |
+          image="ghcr.io/${GITHUB_REPOSITORY,,}"
+          echo "IMAGE=$image" >> "$GITHUB_ENV"
+      - name: Build and validate
+        run: |
+          sudo podman build --pull=always --format oci \
+            --label "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" \
+            --label "org.opencontainers.image.revision=$GITHUB_SHA" \
+            -t "$IMAGE:latest" -t "$IMAGE:sha-$GITHUB_SHA" \
+            -f Containerfile .
+      - name: Login to GHCR
+        if: github.event_name != 'pull_request'
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: printf '%s' "$GHCR_TOKEN" | sudo podman login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+      - name: Publish
+        if: github.event_name != 'pull_request'
+        run: |
+          sudo podman push "$IMAGE:sha-$GITHUB_SHA"
+          sudo podman push "$IMAGE:latest"
+      - name: Logout
+        if: always() && github.event_name != 'pull_request'
+        run: sudo podman logout ghcr.io || true
