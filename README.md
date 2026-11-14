@@ -51,4 +51,4 @@ Inclui RPM Fusion Free, FFmpeg completo, plugins GStreamer, ffmpegthumbnailer, g
 
 ## Loja de aplicativos
 
-GNOME Software, Connections e Câmera (Snapshot/Cheese) são removidos da base, além dos outros aplicativos listados acima. Bazaar é instalado nativamente como RPM durante o build pelo COPR carlwgeorge/bazaar, com verificação de assinatura dos pacotes habilitada. Não é instalada a versão Flatpak do Bazaar. O Flatpak permanece como suporte aos aplicativos gerenciados pela loja. Bazaar gerencia Flatpaks; as atualizações do sistema continuam pelo bootc.
+GNOME Software, Connections e Câmera (Snapshot/Cheese) são removidos da base, além dos outros aplicativos listados acima. Bazaar é instalado nativamente como RPM durante o build pelo COPR ublue-os/packages (restrito ao pacote bazaar), com verificação de assinatura dos pacotes habilitada. Não é instalada a versão Flatpak do Bazaar. O Flatpak permanece como suporte aos aplicativos gerenciados pela loja. Bazaar gerencia Flatpaks; as atualizações do sistema continuam pelo bootc.

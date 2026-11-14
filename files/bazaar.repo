@@ -1,8 +1,9 @@
-[copr:copr.fedorainfracloud.org:carlwgeorge:bazaar]
-name=COPR Bazaar maintained by carlwgeorge
-baseurl=https://download.copr.fedorainfracloud.org/results/carlwgeorge/bazaar/fedora-$releasever-$basearch/
+[copr:copr.fedorainfracloud.org:ublue-os:packages]
+name=Universal Blue packages (Bazaar only)
+baseurl=https://download.copr.fedorainfracloud.org/results/ublue-os/packages/fedora-$releasever-$basearch/
 enabled=1
 gpgcheck=1
 repo_gpgcheck=0
-gpgkey=https://download.copr.fedorainfracloud.org/results/carlwgeorge/bazaar/pubkey.gpg
+gpgkey=https://download.copr.fedorainfracloud.org/results/ublue-os/packages/pubkey.gpg
 skip_if_unavailable=False
+includepkgs=bazaar
