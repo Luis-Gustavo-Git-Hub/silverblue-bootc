@@ -3,11 +3,11 @@ FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
 
 RUN set -eu; \
     set --; \
-    for package in firefox firefox-langpacks gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar gnome-software gnome-connections snapshot cheese; do \
+    for package in firefox firefox-langpacks gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar gnome-software gnome-software-rpm-ostree gnome-connections snapshot cheese; do \
         if rpm -q "$package" >/dev/null 2>&1; then set -- "$@" "$package"; fi; \
     done; \
     if [ "$#" -gt 0 ]; then rpm-ostree override remove "$@"; fi; \
-    for package in firefox gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar gnome-software gnome-connections snapshot cheese; do \
+    for package in firefox gnome-tour malcontent-control gnome-maps gnome-weather yelp gnome-calendar gnome-software gnome-software-rpm-ostree gnome-connections snapshot cheese; do \
         if rpm -q "$package" >/dev/null 2>&1; then exit 1; fi; \
     done; \
     ostree container commit
