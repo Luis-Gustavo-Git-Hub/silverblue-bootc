@@ -1,6 +1,6 @@
 # silverblue-bootc
 
-Projeto pessoal derivado da imagem Fedora Silverblue, mantendo o desktop GNOME, removendo Firefox, GNOME Tour, GNOME Maps, GNOME Weather (Clima) e o aplicativo Controle Parental (`malcontent-control`) e adicionando Brave Origin estável. Não é uma edição oficial do Fedora.
+Projeto pessoal derivado da imagem Fedora Silverblue, mantendo o desktop GNOME, removendo Firefox, GNOME Tour, GNOME Maps, GNOME Weather (Clima), Ajuda (Yelp), Calendário e o aplicativo Controle Parental (`malcontent-control`) e adicionando Brave Origin estável. Não é uma edição oficial do Fedora.
 
 ## Brave Origin
 
