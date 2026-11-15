@@ -52,3 +52,9 @@ Inclui RPM Fusion Free, FFmpeg completo, plugins GStreamer, ffmpegthumbnailer, g
 ## Loja de aplicativos
 
 GNOME Software, Connections e Câmera (Snapshot/Cheese) são removidos da base, além dos outros aplicativos listados acima. Bazaar é instalado nativamente como RPM durante o build pelo COPR ublue-os/packages (restrito ao pacote bazaar), com verificação de assinatura dos pacotes habilitada. Não é instalada a versão Flatpak do Bazaar. O Flatpak permanece como suporte aos aplicativos gerenciados pela loja. Bazaar gerencia Flatpaks; as atualizações do sistema continuam pelo bootc.
+
+## GNOME e KDE Plasma
+
+A imagem inclui as sessões GNOME e KDE Plasma Wayland, mantendo o GDM na tela de login. Após atualizar e reiniciar, selecione seu usuário, abra a engrenagem e escolha Plasma. Para voltar, encerre a sessão e escolha GNOME. O Plasma inclui Configurações do Sistema, Dolphin, Konsole, rede, áudio, Bluetooth, energia, portal de desktop e miniaturas para Dolphin. Bazaar continua sendo a loja de aplicativos.
+
+O build verifica a presença dos dois desktops e do arquivo da sessão Plasma. O login gráfico precisa ser validado no computador.
