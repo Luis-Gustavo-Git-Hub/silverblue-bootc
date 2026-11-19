@@ -66,7 +66,7 @@ RUN rpm-ostree install \
         kde-gtk-config \
         plasma-integration \
         xdg-desktop-portal-kde \
-        systemsettings \
+        plasma-systemsettings \
         dolphin \
         konsole \
         kio-extras \
@@ -79,3 +79,4 @@ RUN rpm-ostree install \
     && ostree container commit
 
 RUN test -x /usr/bin/bootc && bootc container lint
+
