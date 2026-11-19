@@ -56,7 +56,7 @@ RUN rpm-ostree install bazaar flatpak \
 # Sessão Plasma Wayland completa junto do GNOME; GDM continua como login.
 RUN rpm-ostree install \
         plasma-desktop \
-        plasma-workspace-wayland \
+        plasma-workspace \
         plasma-nm \
         plasma-pa \
         powerdevil \
@@ -73,7 +73,7 @@ RUN rpm-ostree install \
         kdegraphics-thumbnailers \
         ffmpegthumbs \
     && systemctl enable --force gdm.service \
-    && rpm -q gnome-shell gdm plasma-desktop plasma-workspace-wayland \
+    && rpm -q gnome-shell gdm plasma-desktop plasma-workspace \
     && test -f /usr/share/wayland-sessions/plasma.desktop \
     && test -x /usr/bin/startplasma-wayland \
     && ostree container commit
