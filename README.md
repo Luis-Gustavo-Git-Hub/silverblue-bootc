@@ -58,3 +58,9 @@ GNOME Software, Connections e Câmera (Snapshot/Cheese) são removidos da base, 
 A imagem inclui as sessões GNOME e KDE Plasma Wayland, mantendo o GDM na tela de login. Após atualizar e reiniciar, selecione seu usuário, abra a engrenagem e escolha Plasma. Para voltar, encerre a sessão e escolha GNOME. O Plasma inclui Configurações do Sistema, Dolphin, Konsole, rede, áudio, Bluetooth, energia, portal de desktop e miniaturas para Dolphin. Bazaar continua sendo a loja de aplicativos.
 
 O build verifica a presença dos dois desktops e do arquivo da sessão Plasma. O login gráfico precisa ser validado no computador.
+
+## Correção bootupd / F2FS
+
+O build compila o bootupd oficial 0.3.2 com um patch local: se a consulta à data de criação de `/ostree/deploy` retornar `Unsupported`, usa a data de modificação. Outros erros continuam sendo propagados. Quatro testes verificam o fallback, a preservação da data original e a propagação de erros. O arquivo fonte é verificado por SHA-256 e Cargo usa o lockfile upstream.
+
+A imagem substitui `/usr/libexec/bootupd` pelo binário corrigido; o RPM Fedora continua registrado como 0.3.2, portanto a verificação de integridade desse arquivo detectará a alteração intencional. Nenhum arquivo na partição EFI é alterado durante o build. O serviço padrão continua responsável pela atualização do bootloader após iniciar na nova imagem. Validação no hardware pendente.

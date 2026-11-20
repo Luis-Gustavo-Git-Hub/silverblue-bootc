@@ -1,4 +1,18 @@
 ARG FEDORA_VERSION=45
+FROM registry.fedoraproject.org/fedora:${FEDORA_VERSION} AS bootupd-build
+RUN dnf install -y cargo rust gcc pkgconf-pkg-config openssl-devel systemd-devel rpm-devel ostree-devel libcap-devel curl tar gzip patch \
+    && dnf clean all
+WORKDIR /build
+RUN curl -fL --retry 3 -o source.tar.gz https://codeload.github.com/coreos/bootupd/tar.gz/refs/tags/v0.3.2 \
+    && echo '7323519fb230d0508e6a9ccbd65763d735fd6af713725aead6c3f015544c48fe  source.tar.gz' | sha256sum -c - \
+    && tar -xzf source.tar.gz --strip-components=1
+COPY files/bootupd-f2fs.patch /tmp/bootupd-f2fs.patch
+RUN patch -p1 < /tmp/bootupd-f2fs.patch
+ENV CARGO_PROFILE_RELEASE_DEBUG=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_BUILD_JOBS=2
+RUN cargo test --locked --features rpm timestamp_fallback_tests \
+    && cargo build --locked --release --features rpm \
+    && strip target/release/bootupd
+
 FROM quay.io/fedora-ostree-desktops/silverblue:${FEDORA_VERSION}
 
 RUN set -eu; \
@@ -78,5 +92,7 @@ RUN rpm-ostree install \
     && test -x /usr/bin/startplasma-wayland \
     && ostree container commit
 
-RUN test -x /usr/bin/bootc && bootc container lint
-
+# Same upstream version as Fedora, with the F2FS timestamp fallback patch.
+COPY --from=bootupd-build /build/target/release/bootupd /usr/libexec/bootupd
+RUN /usr/bin/bootupctl --version \
+    && test -x /usr/bin/bootc && bootc container lint

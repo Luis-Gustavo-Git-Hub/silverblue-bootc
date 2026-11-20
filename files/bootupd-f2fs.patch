@@ -1,0 +1,63 @@
+--- a/src/component.rs
++++ b/src/component.rs
+@@ -265,6 +265,50 @@
+     Ok(())
+ }
+ 
++// F2FS installations may not expose inode birth times. Fall back only for
++// unsupported birth times; propagate permissions and other I/O failures.
++fn creation_time_or_fallback(
++    created: std::io::Result<std::time::SystemTime>,
++    modified: impl FnOnce() -> std::io::Result<std::time::SystemTime>,
++) -> std::io::Result<std::time::SystemTime> {
++    match created {
++        Ok(timestamp) => Ok(timestamp),
++        Err(error) if error.kind() == std::io::ErrorKind::Unsupported => modified(),
++        Err(error) => Err(error),
++    }
++}
++
++#[cfg(test)]
++mod timestamp_fallback_tests {
++    use super::creation_time_or_fallback;
++    use std::io::{Error, ErrorKind};
++    use std::time::{Duration, SystemTime};
++
++    #[test]
++    fn preserves_creation_time() {
++        let original = SystemTime::UNIX_EPOCH + Duration::from_secs(100);
++        assert_eq!(creation_time_or_fallback(Ok(original), || panic!("unexpected fallback")).unwrap(), original);
++    }
++
++    #[test]
++    fn uses_modified_when_creation_time_is_unsupported() {
++        let modified = SystemTime::UNIX_EPOCH + Duration::from_secs(200);
++        assert_eq!(creation_time_or_fallback(Err(Error::from(ErrorKind::Unsupported)), || Ok(modified)).unwrap(), modified);
++    }
++
++    #[test]
++    fn does_not_hide_permission_errors() {
++        let result = creation_time_or_fallback(Err(Error::from(ErrorKind::PermissionDenied)), || panic!("unexpected fallback"));
++        assert_eq!(result.unwrap_err().kind(), ErrorKind::PermissionDenied);
++    }
++
++    #[test]
++    fn propagates_fallback_errors() {
++        let result = creation_time_or_fallback(Err(Error::from(ErrorKind::Unsupported)), || Err(Error::from(ErrorKind::NotFound)));
++        assert_eq!(result.unwrap_err().kind(), ErrorKind::NotFound);
++    }
++}
++
+ #[context("Querying adoptable state")]
+ pub(crate) fn query_adopt_state() -> Result<Option<Adoptable>> {
+     // This would be extended with support for other operating systems later
+@@ -286,7 +330,8 @@
+     }
+     let ostree_deploy_dir = Path::new("/ostree/deploy");
+     if ostree_deploy_dir.exists() {
+-        let btime = ostree_deploy_dir.metadata()?.created()?;
++        let metadata = ostree_deploy_dir.metadata()?;
++        let btime = creation_time_or_fallback(metadata.created(), || metadata.modified())?;
+         let timestamp = chrono::DateTime::from(btime);
+         let meta = ContentMetadata {
+             timestamp,
